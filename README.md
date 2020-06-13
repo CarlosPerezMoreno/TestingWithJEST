@@ -1,132 +1,79 @@
-# Jest playground
-```
-import pizzas from '../data';
+Título del Proyecto
 
-// very basic test to notify the user if our pizza data has changed
-test('the pizza data is correct', () => {
-  expect(pizzas).toMatchSnapshot();
-  expect(pizzas).toHaveLength(4);
-  expect(pizzas.map(pizza => pizza.name)).toEqual([
-    'Chicago Pizza',
-    'Neapolitan Pizza',
-    'New York Pizza',
-    'Sicilian Pizza',
-  ]);
-});
+Acá va un párrafo que describa lo que es el proyecto
+Comenzando 🚀
 
-// let's test that each item in the pizza data has the correct properties
-for (let i = 0; i < pizzas.length; i += 1) {
-  it(`pizza[${i}] should have properties (id, name, image, desc, price)`, () => {
-    expect(pizzas[i]).toHaveProperty('id');
-    expect(pizzas[i]).toHaveProperty('name');
-    expect(pizzas[i]).toHaveProperty('image');
-    expect(pizzas[i]).toHaveProperty('desc');
-    expect(pizzas[i]).toHaveProperty('price');
-  });
-}
+Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas.
 
-// default jest mock function
-test('mock implementation of a basic function', () => {
-  const mock = jest.fn(() => 'I am a mock function');
+Mira Deployment para conocer como desplegar el proyecto.
+Pre-requisitos 📋
 
-  expect(mock('Calling my mock function!')).toBe('I am a mock function');
-  expect(mock).toHaveBeenCalledWith('Calling my mock function!');
-});
+Que cosas necesitas para instalar el software y como instalarlas
 
-// let's mock the return value and test calls
-test('mock return value of a function one time', () => {
-  const mock = jest.fn();
+Da un ejemplo
 
-  // we can chain these!
-  mock.mockReturnValueOnce('Hello').mockReturnValueOnce('there!');
+Instalación 🔧
 
-  mock(); // first call 'Hello'
-  mock(); // second call 'there!'
+Una serie de ejemplos paso a paso que te dice lo que debes ejecutar para tener un entorno de desarrollo ejecutandose
 
-  expect(mock).toHaveBeenCalledTimes(2); // we know it's been called two times
+Dí cómo será ese paso
 
-  mock('Hello', 'there', 'Steve'); // call it with 3 different arguments
-  expect(mock).toHaveBeenCalledWith('Hello', 'there', 'Steve');
+Da un ejemplo
 
-  mock('Steve'); // called with 1 argument
-  expect(mock).toHaveBeenLastCalledWith('Steve');
-});
+Y repite
 
-// let's mock the return value
-// difference between mockReturnValue & mockImplementation
-test('mock implementation of a function', () => {
-  const mock = jest.fn().mockImplementation(() => 'United Kingdom');
-  expect(mock('Location')).toBe('United Kingdom');
-  expect(mock).toHaveBeenCalledWith('Location');
-});
+hasta finalizar
 
-// spying on a single function of an imported module, we can spy on its usage
-// by default the original function gets called, we can change this
-test('spying using original implementation', () => {
-  const pizza = {
-    name: n => `Pizza name: ${n}`,
-  };
-  const spy = jest.spyOn(pizza, 'name');
-  expect(pizza.name('Cheese')).toBe('Pizza name: Cheese');
-  expect(spy).toHaveBeenCalledWith('Cheese');
-});
+Finaliza con un ejemplo de cómo obtener datos del sistema o como usarlos para una pequeña demo
+Ejecutando las pruebas ⚙️
 
-// we can mock the implementation of a function from a module
-test('spying using mockImplementation', () => {
-  const pizza = {
-    name: n => `Pizza name: ${n}`,
-  };
-  const spy = jest.spyOn(pizza, 'name');
-  spy.mockImplementation(n => `Crazy pizza!`);
+Explica como ejecutar las pruebas automatizadas para este sistema
+Analice las pruebas end-to-end 🔩
 
-  expect(pizza.name('Cheese')).toBe('Crazy pizza!');
-  spy.mockRestore(); // back to original implementation
-  expect(pizza.name('Cheese')).toBe('Pizza name: Cheese');
-});
+Explica que verifican estas pruebas y por qué
 
-// let's test pizza return output
-test('pizza returns new york pizza last', () => {
-  const pizza1 = pizzas[0];
-  const pizza2 = pizzas[1];
-  const pizza3 = pizzas[2];
-  const pizza = jest.fn(currentPizza => currentPizza.name);
+Da un ejemplo
 
-  pizza(pizza1); // chicago pizza
-  pizza(pizza2); // neapolitan pizza
-  pizza(pizza3); // new york pizza
+Y las pruebas de estilo de codificación ⌨️
 
-  expect(pizza).toHaveLastReturnedWith('New York Pizza');
-});
+Explica que verifican estas pruebas y por qué
 
-// let's match some data against our object
-test('pizza data has new york pizza and matches as an object', () => {
-  const newYorkPizza = {
-    id: 3,
-    name: 'New York Pizza',
-    image: '/images/ny-pizza.jpg',
-    desc:
-      'New York-style pizza has slices that are large and wide with a thin crust that is foldable yet crispy. It is traditionally topped with tomato sauce and mozzarella cheese.',
-    price: 8,
-  };
-  expect(pizzas[2]).toMatchObject(newYorkPizza);
-});
+Da un ejemplo
 
-// async example, always return a promise (can switch out resolves with reject)
-test('expect a promise to resolve', async () => {
-  const user = {
-    getFullName: jest.fn(() => Promise.resolve('Karl Hadwen')),
-  };
-  await expect(user.getFullName('Karl Hadwen')).resolves.toBe('Karl Hadwen');
-});
+Despliegue 📦
 
-test('expect a promise to reject', async () => {
-  const user = {
-    getFullName: jest.fn(() =>
-      Promise.reject(new Error('Something went wrong'))
-    ),
-  };
-  await expect(user.getFullName('Karl Hadwen')).rejects.toThrow(
-    'Something went wrong'
-  );
-});
-```
+Agrega notas adicionales sobre como hacer deploy
+Construido con 🛠️
+
+Menciona las herramientas que utilizaste para crear tu proyecto
+
+    Dropwizard - El framework web usado
+    Maven - Manejador de dependencias
+    ROME - Usado para generar RSS
+
+Contribuyendo 🖇️
+
+Por favor lee el CONTRIBUTING.md para detalles de nuestro código de conducta, y el proceso para enviarnos pull requests.
+Wiki 📖
+
+Puedes encontrar mucho más de cómo utilizar este proyecto en nuestra Wiki
+Versionado 📌
+
+Usamos SemVer para el versionado. Para todas las versiones disponibles, mira los tags en este repositorio.
+Autores ✒️
+
+Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios
+
+    Andrés Villanueva - Trabajo Inicial - villanuevand
+    Fulanito Detal - Documentación - fulanitodetal
+
+También puedes mirar la lista de todos los contribuyentes quíenes han participado en este proyecto.
+Licencia 📄
+
+Este proyecto está bajo la Licencia (Tu Licencia) - mira el archivo LICENSE.md para detalles
+Expresiones de Gratitud 🎁
+
+    Comenta a otros sobre este proyecto 📢
+    Invita una cerveza 🍺 o un café ☕ a alguien del equipo.
+    Da las gracias públicamente 🤓.
+    etc.
