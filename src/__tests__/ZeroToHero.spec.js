@@ -1,4 +1,5 @@
 import pizzaTest from '../data.json';
+import { mockComponent } from 'react-dom/test-utils';
 
 test('the pizza data is correct', () => {
   expect(pizzaTest).toMatchSnapshot();
@@ -48,4 +49,63 @@ test('mock implementation of a basic function', () => {
   const mock = jest.fn().mockImplementation(() => 'Spain');
   expect(mock('Location')).toBe('Spain');
   expect(mock).toHaveBeenCalledWith('Location');
+});
+
+test('spying using original implementation', () => {
+  const pizza = {
+    name: n => `Pizza name: ${n}`,
+  };
+  const spy = jest.spyOn(pizza, 'name');
+  expect(pizza.name('Cheese')).toBe('Pizza name: Cheese');
+  expect(spy).toHaveBeenCalledWith('Cheese');
+});
+
+test('spying using mockImplementation', () => {
+  const pizza = {
+    name: n => `Pizza name: ${n}`,
+  };
+  const spy = jest.spyOn(pizza, 'name');
+  spy.mockImplementation(n => `Crazyy pizza!`);
+
+  expect(pizza.name('Cheese')).toBe('Crazyy pizza!');
+  expect(spy).toHaveBeenCalledWith('Cheese');
+});
+
+test('pizza return new york last', () => {
+  const pizza1 = pizzaTest[0];
+  const pizza2 = pizzaTest[1];
+  const pizza3 = pizzaTest[2];
+  const pizza = jest.fn(curr => curr.name);
+
+  pizza(pizza1); //chicago
+  pizza(pizza2); //neopolitan
+  pizza(pizza3); //NY
+
+  expect(pizza).toHaveLastReturnedWith('New York Pizza');
+});
+
+test('pizza data has chicago pizza and matches as an object', () => {
+  const chicagoPizza = {
+    id: 1,
+    name: 'Chicago Pizza',
+    image: '/images/chicago-pizza.jpg',
+    desc:
+      'The pan in which it is baked gives the pizza its characteristically high edge which provides ample space for large amounts of cheese and a chunky tomato sauce.',
+    price: 9,
+  };
+  expect(pizzaTest[0]).toMatchObject(chicagoPizza);
+});
+
+test('expect a promise to resolve', async () => {
+  const user = {
+    getFullName: jest.fn(() => Promise.resolve('John Cena')),
+  };
+  await expect(user.getFullName('?')).resolves.toBe('John Cena');
+});
+
+test('expect a promise to resolve', async () => {
+  const user = {
+    getFullName: jest.fn(() => Promise.reject(new Error('Error'))),
+  };
+  await expect(user.getFullName('?')).rejects.toThrow('Error');
 });
